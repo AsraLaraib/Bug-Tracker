@@ -1,11 +1,13 @@
-// app/api/bugs/[id]/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
 // GET a single bug by ID
-export async function GET(req: NextRequest, context: { params: Promise<{ id: string }> }) {
+export async function GET(
+  req: NextRequest,
+  context: { params: { id: string } } // fixed type
+) {
   try {
-    const { id } = await context.params;
+    const { id } = context.params;
     const bugId = Number(id);
     if (isNaN(bugId)) {
       return NextResponse.json({ success: false, error: "Invalid bug ID" }, { status: 400 });
@@ -22,9 +24,12 @@ export async function GET(req: NextRequest, context: { params: Promise<{ id: str
 }
 
 // PATCH (update) a bug by ID
-export async function PATCH(req: NextRequest, context: { params: Promise<{ id: string }> }) {
+export async function PATCH(
+  req: NextRequest,
+  context: { params: { id: string } } // fixed type
+) {
   try {
-    const { id } = await context.params;
+    const { id } = context.params;
     const bugId = Number(id);
     if (isNaN(bugId)) return NextResponse.json({ success: false, error: "Invalid bug ID" }, { status: 400 });
 
@@ -42,9 +47,12 @@ export async function PATCH(req: NextRequest, context: { params: Promise<{ id: s
 }
 
 // DELETE a bug by ID
-export async function DELETE(req: NextRequest, context: { params: Promise<{ id: string }> }) {
+export async function DELETE(
+  req: NextRequest,
+  context: { params: { id: string } } // fixed type
+) {
   try {
-    const { id } = await context.params;
+    const { id } = context.params;
     const bugId = Number(id);
     if (isNaN(bugId)) return NextResponse.json({ success: false, error: "Invalid bug ID" }, { status: 400 });
 
