@@ -25,3 +25,9 @@ enum Severity {
   HIGH
 }
 
+enum Status {
+  Open
+  InProgress
+  Closed
+}
+
