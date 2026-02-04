@@ -1,4 +1,3 @@
-// app/api/bugs/[id]/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
@@ -7,16 +6,17 @@ import { prisma } from "@/lib/prisma";
 // --------------------
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
-    const id = Number(params.id);
-    if (isNaN(id)) {
+    const { id } = await context.params;
+    const bugId = Number(id);
+    if (isNaN(bugId)) {
       return NextResponse.json({ success: false, error: "Invalid bug ID" }, { status: 400 });
     }
 
     const bug = await prisma.bug.findUnique({
-      where: { id },
+      where: { id: bugId },
     });
 
     if (!bug) {
@@ -26,26 +26,26 @@ export async function GET(
     return NextResponse.json({ success: true, bug });
   } catch (err: any) {
     console.error("GET /api/bugs/[id] error:", err);
-    return NextResponse.json({ success: false, error: "Internal server error" }, { status: 500 });
+    return NextResponse.json({ success: false, error: err.message }, { status: 500 });
   }
 }
 
 // --------------------
-// PATCH (update) a bug by ID
+// PATCH a bug by ID
 // --------------------
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
-    const id = Number(params.id);
-    if (isNaN(id)) {
+    const { id } = await context.params;
+    const bugId = Number(id);
+    if (isNaN(bugId)) {
       return NextResponse.json({ success: false, error: "Invalid bug ID" }, { status: 400 });
     }
 
     const body = await req.json();
 
-    // Optional: validate fields
     const allowedFields = ["title", "description", "severity", "status", "url", "screenshot"];
     const data: Record<string, any> = {};
     for (const field of allowedFields) {
@@ -53,7 +53,7 @@ export async function PATCH(
     }
 
     const updatedBug = await prisma.bug.update({
-      where: { id },
+      where: { id: bugId },
       data,
     });
 
@@ -69,15 +69,18 @@ export async function PATCH(
 // --------------------
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
-    const id = Number(params.id);
-    if (isNaN(id)) {
+    const { id } = await context.params;
+    const bugId = Number(id);
+    if (isNaN(bugId)) {
       return NextResponse.json({ success: false, error: "Invalid bug ID" }, { status: 400 });
     }
 
-    await prisma.bug.delete({ where: { id } });
+    await prisma.bug.delete({
+      where: { id: bugId },
+    });
 
     return NextResponse.json({ success: true, message: "Bug deleted" });
   } catch (err: any) {
