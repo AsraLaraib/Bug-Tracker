@@ -2,44 +2,31 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
-// CREATE BUG
+// CREATE a new bug
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
     const { title, description, severity, url, screenshot } = body;
 
-    if (
-      typeof title !== "string" ||
-      typeof description !== "string" ||
-      !["LOW", "MEDIUM", "HIGH"].includes(severity)
-    ) {
+    if (!title || !description || !severity) {
       return NextResponse.json(
-        { success: false, error: "Invalid input data" },
+        { success: false, error: "Title, description, and severity are required" },
         { status: 400 }
       );
     }
 
     const bug = await prisma.bug.create({
-      data: {
-        title,
-        description,
-        severity,
-        url: url || null,
-        screenshot: screenshot || null,
-      },
+      data: { title, description, severity, url, screenshot },
     });
 
-    return NextResponse.json({ success: true, bug }, { status: 201 });
+    return NextResponse.json({ success: true, bug });
   } catch (err: any) {
     console.error("POST /api/bugs error:", err);
-    return NextResponse.json(
-      { success: false, error: "Internal server error" },
-      { status: 500 }
-    );
+    return NextResponse.json({ success: false, error: err.message }, { status: 500 });
   }
 }
 
-// GET ALL BUGS
+// GET all bugs, newest first
 export async function GET() {
   try {
     const bugs = await prisma.bug.findMany({
@@ -49,9 +36,6 @@ export async function GET() {
     return NextResponse.json({ success: true, bugs });
   } catch (err: any) {
     console.error("GET /api/bugs error:", err);
-    return NextResponse.json(
-      { success: false, error: "Internal server error" },
-      { status: 500 }
-    );
+    return NextResponse.json({ success: false, error: err.message }, { status: 500 });
   }
 }
