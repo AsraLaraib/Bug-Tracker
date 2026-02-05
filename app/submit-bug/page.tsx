@@ -42,19 +42,16 @@ export default function SubmitBugPage() {
   };
 
   return (
-    <main className="min-h-screen flex items-center justify-center bg-gray-50 p-6">
-      <form
-        onSubmit={handleSubmit}
-        className="bg-white p-6 rounded shadow-md w-full max-w-md space-y-4"
-      >
-        <h1 className="text-2xl font-bold text-green-600 mb-4">Submit a Bug</h1>
+    <main className="min-h-screen flex items-center justify-center p-6 bg-gray-900">
+      <form className="bg-gray-800 text-gray-100 p-6 rounded shadow-md w-full max-w-md space-y-4" onSubmit={handleSubmit}>
+        <h1 className="text-2xl font-bold text-green-400 mb-4">Submit a Bug</h1>
 
         <input
           type="text"
           placeholder="Title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          className="w-full border px-3 py-2 rounded"
+          className="w-full rounded-md bg-gray-700 border border-gray-600 text-gray-100 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
           required
         />
 
@@ -62,14 +59,14 @@ export default function SubmitBugPage() {
           placeholder="Description"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
-          className="w-full border px-3 py-2 rounded"
+          className="w-full rounded-md bg-gray-700 border border-gray-600 text-gray-100 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
           required
         />
 
         <select
           value={severity}
           onChange={(e) => setSeverity(e.target.value)}
-          className="w-full border px-3 py-2 rounded"
+          className="w-full rounded-md bg-gray-700 border border-gray-600 text-gray-100 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
         >
           <option value="Low">Low</option>
           <option value="Medium">Medium</option>
@@ -81,7 +78,7 @@ export default function SubmitBugPage() {
           placeholder="Related URL (optional)"
           value={url}
           onChange={(e) => setUrl(e.target.value)}
-          className="w-full border px-3 py-2 rounded"
+          className="w-full rounded-md bg-gray-700 border border-gray-600 text-gray-100 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
         />
 
         <input
@@ -89,7 +86,7 @@ export default function SubmitBugPage() {
           placeholder="Screenshot URL (optional)"
           value={screenshot}
           onChange={(e) => setScreenshot(e.target.value)}
-          className="w-full border px-3 py-2 rounded"
+          className="w-full rounded-md bg-gray-700 border border-gray-600 text-gray-100 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
         />
 
         <button
