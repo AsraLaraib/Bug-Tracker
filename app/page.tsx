@@ -7,7 +7,7 @@ export default function HomePage() {
     <main className="min-h-screen bg-gray-50 dark:bg-gray-900 flex flex-col items-center justify-center px-4">
       <section className="text-center space-y-6">
         <h1 className="text-4xl md:text-6xl font-bold text-green-600 dark:text-green-400">
-          Mini Bug Tracker
+          Bug Bank
         </h1>
         <p className="text-gray-700 dark:text-gray-300 text-lg md:text-xl max-w-xl mx-auto">
           Submit, track, and manage bugs effortlessly. Perfect for small projects or teams.
